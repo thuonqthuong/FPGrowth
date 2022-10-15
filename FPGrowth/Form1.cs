@@ -97,28 +97,6 @@ namespace FPGrowth
                 Values[i] = d;
             }
 
-            //Định nghĩa bảng để hiển thị bảng giao tác
-            var dt = new DataTable();
-            dt.Clear();
-            dt.Columns.Add("TID");
-            dt.Columns.Add("Items");
-            
-            this.data.DataSource = dt;
-            for (int i = 0; i < Values.Length; ++i)//dòng
-            {
-                DataRow row = dt.NewRow();
-                row["TID"] = tbl.Rows[i].ItemArray[0];//Dependent
-                string display = "";
-                for (int j = 0; j < Values[i].Length; ++j)//cột
-                {
-                    if (Values[i][j] != null)
-                        display += Values[i][j] + ", ";
-                }
-                display = display.Remove(display.Length - 2, 2);
-                row["Items"] = display;
-                dt.Rows.Add(row);
-            }
-            //LẤY DỮ LIỆU CHO BẢNG HEADER TABLE
             var fqcTable = new DataTable();
             fqcTable.Clear();
             fqcTable.Columns.Add("Item ID");
@@ -126,6 +104,7 @@ namespace FPGrowth
             this.frequency.DataSource = fqcTable;
             List<Item> headerTable = CalculateFrequency(Values, cot);
             headerTable.RemoveAt(0);
+            //SẮP XẾP DỮ LIỆU HEADER TABLE THEO ĐỘ PHỔ BIẾN 
             headerTable.Sort(//https://stackoverflow.com/questions/3309188/how-to-sort-a-listt-by-a-property-in-the-object
             delegate (Item p1, Item p2)//Không cần sort thêm điều kiện thứ 2 vì mã sản phẩm đã được sort trong csdl
                 {
@@ -138,6 +117,42 @@ namespace FPGrowth
                 row["Item ID"] = i.GetItemName();
                 row["Frequency Count"] = i.GetCount();
                 fqcTable.Rows.Add(row);
+            }
+            //Định nghĩa bảng để hiển thị bảng giao tác
+            var dt = new DataTable();
+            dt.Clear();
+            dt.Columns.Add("TID");
+            dt.Columns.Add("Items");
+            string[] frcName = headerTable.Select(x => x.GetItemName()).ToArray();
+            /*headerTable.ConvertAll<string>(delegate (Item i)
+            {
+                return i.GetItemName();
+            }).ToArray();*/
+            this.data.DataSource = dt;
+            for (int i = 0; i < Values.Length; ++i)//dòng
+            {
+                DataRow row = dt.NewRow();
+                row["TID"] = tbl.Rows[i].ItemArray[0];//Dependent
+                string display = ""; int j = 0; int k = 0;
+                while (j < Values[i].Length && k < headerTable.Count)//cột
+                {
+                    if (headerTable[k].GetItemName().Equals(Values[i][j]))
+                    {
+                        display += Values[i][j] + ", ";
+                        k++; j=0;
+                    }
+                    else if (j == Values[i].Length-1)
+                    {
+                        j = 0;
+                        k++;
+                    }
+                    else
+                        j++;
+                    continue;
+                }
+                display = display.Remove(display.Length - 2, 2);
+                row["Items"] = display;
+                dt.Rows.Add(row);
             }
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
