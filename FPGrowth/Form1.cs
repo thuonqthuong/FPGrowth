@@ -14,8 +14,11 @@ namespace FPGrowth
     public partial class Form1 : DevExpress.XtraEditors.XtraForm
     {
         string SYS_DB;
+        DataTable tbl;
         string[] cot;
         string[][] Values;
+        string[][] sortValues;
+        string[][] sortData;
         static int num_transac;
         public Form1()
         {
@@ -35,13 +38,13 @@ namespace FPGrowth
             string[] tempItems = distinct_item;
             int[] numItems = new int[tempItems.Length];
             int index = 0;
-            while(index<tempItems.Length)//--------UPDATE--------
+            while (index < tempItems.Length)//--------UPDATE--------
             {
                 for (int i = 0; i < Values.Length; ++i)//dòng
                 {
                     for (int j = 0; j < Values[i].Length; ++j)//cột
                     {
-                        if (Values[i][j]!=null && Values[i][j].Equals(tempItems[index]))
+                        if (Values[i][j] != null && Values[i][j].Equals(tempItems[index]))
                         {
                             numItems[index]++;
                         }
@@ -57,6 +60,8 @@ namespace FPGrowth
         {
             //LẤY DỮ LIỆU BẢNG DỮ LIỆU GIAO TÁC
             SYS_DB = comboBox1.GetItemText(comboBox1.SelectedItem);
+            if (SYS_DB != null)
+                textBox1.Enabled = textBox2.Enabled = true;
             String dulieubang = "USE " + SYS_DB + " EXEC SP_GIAOTAC";
             if (Program.KetNoi(SYS_DB) == 0) return;
             Program.myReader = Program.ExecSqlDataReader(dulieubang);
@@ -67,9 +72,9 @@ namespace FPGrowth
             con.Open();
             SqlCommand cmd = new SqlCommand(dulieubang, con);
             SqlDataReader r = cmd.ExecuteReader();
-            DataTable tbl = new DataTable();
+            tbl = new DataTable();
             tbl.Load(r);
-            
+
             //LẤY DỮ LIỆU GIAO TÁC NHỮNG SẢN PHẨM XUẤT HIỆN TRONG HÓA ĐƠN
             int number_cols = tbl.Columns.Count;
             int number_rows = tbl.Rows.Count;
@@ -81,15 +86,15 @@ namespace FPGrowth
             {
                 cot[i] = tbl.Columns[i].ColumnName;
             }
-            
+
             //Lấy giá trị có nghĩa ở từng dòng giao tác (lấy tên cột khi giá trị dòng i cột đó = 1)-------string[][] Values-------
             for (int i = 0; i < number_rows; i++)
             {
-                int index=0;
+                int index = 0;
                 string[] d = new string[number_cols];
                 for (int j = 1; j < number_cols; j++)
                 {
-                    if (Convert.ToDouble(tbl.Rows[i].ItemArray[j])==1)
+                    if (Convert.ToDouble(tbl.Rows[i].ItemArray[j]) == 1)
                     {
                         d[index++] = cot[j];
                     }
@@ -120,71 +125,141 @@ namespace FPGrowth
             }
             //Định nghĩa bảng để hiển thị bảng giao tác
             var dt = new DataTable();
+            sortValues = new string[number_rows][];
             dt.Clear();
             dt.Columns.Add("TID");
             dt.Columns.Add("Items");
-            string[] frcName = headerTable.Select(x => x.GetItemName()).ToArray();
-            /*headerTable.ConvertAll<string>(delegate (Item i)
-            {
-                return i.GetItemName();
-            }).ToArray();*/
             this.data.DataSource = dt;
             for (int i = 0; i < Values.Length; ++i)//dòng
             {
                 DataRow row = dt.NewRow();
                 row["TID"] = tbl.Rows[i].ItemArray[0];//Dependent
-                string display = ""; int j = 0; int k = 0;
+                int j = 0; int k = 0; int l = 0;
+                string[] temp = new string[Values[i].Length];
                 while (j < Values[i].Length && k < headerTable.Count)//cột
                 {
                     if (headerTable[k].GetItemName().Equals(Values[i][j]))
                     {
-                        display += Values[i][j] + ", ";
-                        k++; j=0;
+                        temp[++l] = Values[i][j];
+                        k++; j = 0;
                     }
-                    else if (j == Values[i].Length-1)
+                    else if (j == Values[i].Length - 1)
                     {
                         j = 0;
                         k++;
                     }
                     else
                         j++;
-                    continue;
+                }
+                temp = temp.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                sortValues[i] = temp;
+            }
+            for (int i = 0; i < sortValues.Length; ++i)//dòng
+            {
+                DataRow row = dt.NewRow();
+                row["TID"] = tbl.Rows[i].ItemArray[0];//Dependent
+                string display = "";
+                for (int j = 0; j < sortValues[i].Length; ++j)//cột
+                {
+                    display += sortValues[i][j] + ", ";
                 }
                 display = display.Remove(display.Length - 2, 2);
                 row["Items"] = display;
                 dt.Rows.Add(row);
             }
         }
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             double minSup;
             //int minSup = int.Parse(textBox1.Text);//https://www.youtube.com/watch?v=k3M8yT6FB7w
             bool res = double.TryParse(textBox1.Text, out minSup);//https://social.msdn.microsoft.com/Forums/sqlserver/en-US/92d5e038-82a2-43c7-a029-bc65aff90cc5/c-textbox-text-to-integer?forum=winforms
-            double min = Math.Ceiling(minSup / 100 * num_transac);
-            int minSupResult = Convert.ToInt32(min);
-            //LẤY DỮ LIỆU CHO BẢNG HEADER TABLE
-            var fqcTable = new DataTable();
-            fqcTable.Clear();
-            fqcTable.Columns.Add("Item ID");
-            fqcTable.Columns.Add("Frequency Count");
-            this.frequency.DataSource = fqcTable;
-            List<Item> headerTable = CalculateFrequency(Values, cot);
-            headerTable.RemoveAt(0);
-            headerTable.Sort(//https://stackoverflow.com/questions/3309188/how-to-sort-a-listt-by-a-property-in-the-object
-            delegate (Item p1, Item p2)//Không cần sort thêm điều kiện thứ 2 vì mã sản phẩm đã được sort trong csdl
+            if (minSup < 0 || minSup > 100 || res == false)
+                textBox1.Text = "";
+            else
             {
-                return p2.GetCount().CompareTo(p1.GetCount());
-            }
-            );
-            foreach (Item i in headerTable)
-            {
-                if(i.GetCount() >= minSupResult)
+                double min = Math.Ceiling(minSup / 100 * num_transac);
+                int minSupResult = Convert.ToInt32(min);
+
+                //LẤY DỮ LIỆU CHO BẢNG HEADER TABLE
+                var fqcTable = new DataTable();
+                fqcTable.Clear();
+                fqcTable.Columns.Add("Item ID");
+                fqcTable.Columns.Add("Frequency Count");
+                this.frequency.DataSource = fqcTable;
+                List<Item> headerTable = CalculateFrequency(Values, cot);
+                headerTable.RemoveAt(0);
+                headerTable.Sort(//https://stackoverflow.com/questions/3309188/how-to-sort-a-listt-by-a-property-in-the-object
+                delegate (Item p1, Item p2)//Không cần sort thêm điều kiện thứ 2 vì mã sản phẩm đã được sort trong csdl
                 {
-                    DataRow row = fqcTable.NewRow();
-                    row["Item ID"] = i.GetItemName();
-                    row["Frequency Count"] = i.GetCount();
-                    fqcTable.Rows.Add(row);
-                }    
+                    return p2.GetCount().CompareTo(p1.GetCount());
+                }
+                );
+                List<Item> sort = new List<Item>();
+                foreach (Item i in headerTable)
+                {
+                    Item tam = new Item();
+                    if (i.GetCount() >= minSupResult)
+                    {
+                        DataRow row = fqcTable.NewRow();
+                        row["Item ID"] = i.GetItemName();
+                        row["Frequency Count"] = i.GetCount();
+                        tam.SetItemName(i.GetItemName());
+                        tam.SetCount(i.GetCount());
+                        fqcTable.Rows.Add(row);
+                        sort.Add(tam);
+                    }
+                }
+                // SẮP XẾP DỮ LIỆU THEO BẢNG HEADER TABLE
+                var dt = new DataTable();
+                dt.Clear();
+                dt.Columns.Add("TID");
+                dt.Columns.Add("Items Sort");
+                this.data.DataSource = dt;
+                sortData = new string[sortValues.Length][];
+
+                for (int i = 0; i < sortValues.Length; ++i)//dòng
+                {
+                    string[] display = new string[sortValues[i].Length]; int k = 0;
+                    for (; k < sort.Count; k++)//cột
+                    {
+                        for (int j = 0; j < sortValues[i].Length; ++j)
+                        {
+                            if (sort[k].GetItemName().Equals(sortValues[i][j]))
+                            {
+                                display[j] = sortValues[i][j];
+                                break;
+                            }
+                            else if (k == sort.Count)
+                            {
+                                display = null;
+                                break;
+                            }
+                            continue;
+                        }
+                    }
+                    display = display.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                    sortData[i] = display;
+                }
+                for (int i = 0; i < sortData.Length; ++i)//dòng
+                {
+                    DataRow row = dt.NewRow();
+                    row["TID"] = tbl.Rows[i].ItemArray[0];//Dependent
+                    string display = "";
+                    if (sortData[i].Length == 0)
+                    {//Nếu muốn thêm dòng dữ liệu trống thì để 2 dòng code này lại
+                     //row["Items Sort"] = "";
+                     //dt.Rows.Add(row);
+                        continue;
+                    }
+                    for (int j = 0; j < sortData[i].Length; ++j)//cột
+                    {
+                        display += sortData[i][j] + ", ";
+                    }
+                    display = display.Remove(display.Length - 2, 2);
+                    row["Items Sort"] = display;
+                    dt.Rows.Add(row);
+                }
             }
         }
 

@@ -169,6 +169,7 @@ namespace FPGrowth
             // 
             // textBox2
             // 
+            this.textBox2.Enabled = false;
             this.textBox2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox2.Location = new System.Drawing.Point(449, 35);
             this.textBox2.Name = "textBox2";
@@ -177,6 +178,7 @@ namespace FPGrowth
             // 
             // textBox1
             // 
+            this.textBox1.Enabled = false;
             this.textBox1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.Location = new System.Drawing.Point(277, 36);
             this.textBox1.Name = "textBox1";
