@@ -751,7 +751,7 @@ namespace FPGrowth.masterDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::FPGrowth.Properties.Settings.Default.masterConnectionString;
+            this._connection.ConnectionString = global::FPGrowth.Properties.Settings.Default.masterConnectionString1;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -760,8 +760,8 @@ namespace FPGrowth.masterDataSetTableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT        name, database_id\r\nFROM            sys.databases\r\nWHERE        OBJE" +
-                "CT_ID(QUOTENAME(name) + \'.dbo.SP_GIAOTAC\', \'P\') IS NOT NULL\r\nORDER BY name";
+            this._commandCollection[0].CommandText = "SELECT name, database_id\r\nFROM     sys.databases\r\nWHERE  (OBJECT_ID(QUOTENAME(nam" +
+                "e) + \'.dbo.SP_GIAOTAC\', \'P\') IS NOT NULL)\r\nORDER BY name";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         

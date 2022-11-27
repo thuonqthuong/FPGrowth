@@ -13,7 +13,7 @@ namespace FPGrowth.Algorithm
         public Item()
         {
             this.item_name = null;
-            this.count = 0;
+            this.count = -1;
         }
         public string GetItemName()
         {
@@ -35,10 +35,21 @@ namespace FPGrowth.Algorithm
             this.count = count;
         }
 
-        public Item(string item_name, int count)
+        public Item(string _item_name)
+            : this()
         {
-            this.item_name = item_name;
-            this.count = count;
+            item_name = _item_name;
+        }
+        public Item(string _item_name, int _supportCount)
+            : this()
+        {
+            item_name = _item_name;
+            count = _supportCount;
+        }
+        public Item Clone()
+        {
+            Item item = new Item(item_name, count);
+            return item;
         }
     }
 }

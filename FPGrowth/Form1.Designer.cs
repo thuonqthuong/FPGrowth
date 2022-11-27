@@ -79,6 +79,7 @@ namespace FPGrowth
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1228, 584);
             this.panel1.TabIndex = 0;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // t
             // 
@@ -155,6 +156,7 @@ namespace FPGrowth
             this.thucthithuattoan.TabIndex = 7;
             this.thucthithuattoan.Text = "THỰC THI THUẬT TOÁN";
             this.thucthithuattoan.UseVisualStyleBackColor = false;
+            this.thucthithuattoan.Click += new System.EventHandler(this.thucthithuattoan_Click);
             // 
             // label4
             // 
@@ -184,6 +186,7 @@ namespace FPGrowth
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(69, 26);
             this.textBox1.TabIndex = 4;
+            this.textBox1.Text = "25";
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label3
@@ -220,11 +223,11 @@ namespace FPGrowth
             // 
             this.comboBox1.DataSource = this.databasesBindingSource;
             this.comboBox1.DisplayMember = "name";
-            this.comboBox1.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox1.Font = new System.Drawing.Font("Tahoma", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(60, 35);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 26);
+            this.comboBox1.Size = new System.Drawing.Size(121, 30);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectionChangeCommitted += new System.EventHandler(this.comboBox1_SelectionChangeCommitted);
             // 

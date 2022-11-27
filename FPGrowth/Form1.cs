@@ -15,14 +15,20 @@ namespace FPGrowth
     {
         string SYS_DB;
         DataTable tbl;
-        string[] cot;
+        public static string[] cot;
         string[][] Values;
         string[][] sortValues;
-        string[][] sortData;
-        static int num_transac;
+        public string[][] sortData;//Dữ liệu sắp xếp cuối cùng
+        public int minSupResult;
+        public int num_transac;
+        //public static List<Item> headerTable = new List<Item>();
+        public static Form1 instance;
+
+        Form2 form = new Form2();
         public Form1()
         {
             InitializeComponent();
+            instance = this;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -67,7 +73,7 @@ namespace FPGrowth
             Program.myReader = Program.ExecSqlDataReader(dulieubang);
             var datatable = new DataTable();
             datatable.Load(Program.myReader);
-            string constring = "Data Source=DESKTOP-UPGKA2J;Initial Catalog=master;Persist Security Info=True;User ID=sa;Password=123";
+            string constring = "Data Source=INTERN-TTHUONGT;Initial Catalog=master;Persist Security Info=True;User ID=sa;Password=123";
             SqlConnection con = new SqlConnection(constring);
             con.Open();
             SqlCommand cmd = new SqlCommand(dulieubang, con);
@@ -171,15 +177,15 @@ namespace FPGrowth
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            double minSup;
             //int minSup = int.Parse(textBox1.Text);//https://www.youtube.com/watch?v=k3M8yT6FB7w
+            double minSup;
             bool res = double.TryParse(textBox1.Text, out minSup);//https://social.msdn.microsoft.com/Forums/sqlserver/en-US/92d5e038-82a2-43c7-a029-bc65aff90cc5/c-textbox-text-to-integer?forum=winforms
             if (minSup < 0 || minSup > 100 || res == false)
                 textBox1.Text = "";
             else
             {
-                double min = Math.Ceiling(minSup / 100 * num_transac);
-                int minSupResult = Convert.ToInt32(min);
+                double min = Math.Ceiling((double)minSup / 100 * num_transac);
+                minSupResult = Convert.ToInt32(min);
 
                 //LẤY DỮ LIỆU CHO BẢNG HEADER TABLE
                 var fqcTable = new DataTable();
@@ -264,6 +270,32 @@ namespace FPGrowth
         }
 
         private void hienthicay_Click(object sender, EventArgs e)
+        {
+            form.sortData = this.sortData;
+            t.Text = minSupResult + "ff";
+            form.minSup = minSupResult;
+            form.numTransact = num_transac;
+            //form.items = CalculateFrequency(Values, cot);
+            form.ShowDialog();
+        }
+
+        private void thucthithuattoan_Click(object sender, EventArgs e)
+        {
+            FPGrowthAlgorithm fpGrowth = new FPGrowthAlgorithm();
+            fpGrowth.CreateFPTreeAndGenerateFrequentItemsets(sortData, CalculateFrequency(sortValues, cot), num_transac, minSupResult);
+            /*string d = "";
+            for (int i = 0; i < sortData.Length; ++i)//dòng
+            {
+                for (int j = 0; j < sortData[i].Length; ++j)//cột
+                {
+                    d += sortData[i][j] + ", ";
+                }
+                d += "    ";
+            }
+            results.Text = d;*/
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }

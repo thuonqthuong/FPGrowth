@@ -33,5 +33,16 @@ namespace FPGrowth.Properties {
                 return ((string)(this["masterConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=INTERN-TTHUONGT;Initial Catalog=master;Persist Security Info=True;Use" +
+            "r ID=sa;Password=123")]
+        public string masterConnectionString1 {
+            get {
+                return ((string)(this["masterConnectionString1"]));
+            }
+        }
     }
 }

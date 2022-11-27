@@ -14,7 +14,7 @@ namespace FPGrowth
     {
         public static System.Data.SqlClient.SqlDataReader reader;
         public static SqlConnection connection = new SqlConnection();
-        public static String servername = "DESKTOP-UPGKA2J"; // luu ten server tra vè ở form dang nhap
+        public static String servername = "INTERN-TTHUONGT"; // luu ten server tra vè ở form dang nhap
         public static String username = "sa";
         public static String password = "123";
         public static SqlDataReader myReader;
