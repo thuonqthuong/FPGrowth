@@ -9,8 +9,6 @@ namespace FPGrowth.Algorithm
     class ItemSet
     {
         private List<Item> items; //list of items in item set
-
-
         private int supportCount; // support count of this item set
 
         public int SupportCount
@@ -18,18 +16,23 @@ namespace FPGrowth.Algorithm
             get { return supportCount; }
             set { supportCount = value; }
         }
+        public List<Item> Items
+        {
+            get { return items; }
+            set { items = value; }
+        }
 
         //constructor
         public ItemSet()
         {
             items = new List<Item>();
-            supportCount = -1;
+            supportCount = 0;
         }
         //add item into item set
         public void AddItem(Item item)
         {
             items.Add(item);
-            supportCount = -1;
+            supportCount = item.GetCount();
         }
         //remove item
         public Item GetItem(int position)
@@ -61,12 +64,13 @@ namespace FPGrowth.Algorithm
         }
         public string GetInfoString()
         {
-            string info = "";
+            string info = "[";
             foreach (Item anItem in items)
             {
-                info += (" " + anItem.GetItemName().ToString());
+                info += " " + anItem.GetItemName().ToString() + ", ";
             }
-
+            info = info.Remove(info.Length - 2, 2);
+            info += "]: " + SupportCount;
             return info;
         }
         public void Print()

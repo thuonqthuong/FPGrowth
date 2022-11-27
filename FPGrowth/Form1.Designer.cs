@@ -99,7 +99,7 @@ namespace FPGrowth
             // results
             // 
             this.results.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.results.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.results.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.results.Location = new System.Drawing.Point(0, 0);
             this.results.Multiline = true;
             this.results.Name = "results";
@@ -173,7 +173,7 @@ namespace FPGrowth
             // 
             this.textBox2.Enabled = false;
             this.textBox2.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(449, 35);
+            this.textBox2.Location = new System.Drawing.Point(457, 35);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(69, 26);
             this.textBox2.TabIndex = 5;
@@ -186,7 +186,6 @@ namespace FPGrowth
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(69, 26);
             this.textBox1.TabIndex = 4;
-            this.textBox1.Text = "25";
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label3
@@ -195,9 +194,9 @@ namespace FPGrowth
             this.label3.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(386, 40);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(68, 18);
+            this.label3.Size = new System.Drawing.Size(74, 18);
             this.label3.TabIndex = 3;
-            this.label3.Text = "minCon:";
+            this.label3.Text = "minConf:";
             // 
             // label2
             // 

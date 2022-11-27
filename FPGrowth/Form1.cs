@@ -281,18 +281,27 @@ namespace FPGrowth
 
         private void thucthithuattoan_Click(object sender, EventArgs e)
         {
-            FPGrowthAlgorithm fpGrowth = new FPGrowthAlgorithm();
-            fpGrowth.CreateFPTreeAndGenerateFrequentItemsets(sortData, CalculateFrequency(sortValues, cot), num_transac, minSupResult);
-            /*string d = "";
-            for (int i = 0; i < sortData.Length; ++i)//dòng
+            if (textBox2.Text == "")
+                MessageBox.Show("Vui lòng nhập giá trị cho ô 'minConf'");
+            else
             {
-                for (int j = 0; j < sortData[i].Length; ++j)//cột
+                double minConf;
+                bool res = double.TryParse(textBox2.Text, out minConf);//https://social.msdn.microsoft.com/Forums/sqlserver/en-US/92d5e038-82a2-43c7-a029-bc65aff90cc5/c-textbox-text-to-integer?forum=winforms
+                if (minConf < 0 || minConf > 100 || res == false)
+                    textBox2.Text = "";
+                else
                 {
-                    d += sortData[i][j] + ", ";
+                    results.Text = minConf + "";
+                    FPGrowthAlgorithm fpGrowth = new FPGrowthAlgorithm();
+                    List<ItemSet> resultsOfItemsets =  fpGrowth.CreateFPTreeAndGenerateFrequentItemsets(sortData, CalculateFrequency(sortValues, cot), num_transac, minSupResult, minConf/100);
+                    string t = "BỘ CÁC TẬP MỤC THƯỜNG XUYÊN \r\n";
+                    foreach(ItemSet i in resultsOfItemsets)
+                    {
+                        t += "    " + i.GetInfoString() + "\r\n";
+                    }
+                    results.Text = t;
                 }
-                d += "    ";
             }
-            results.Text = d;*/
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
