@@ -28,13 +28,6 @@ namespace FPGrowth
             //fpGrowth.CreateFPTreeAndGenerateFrequentItemsets(sortData, items, numTransact, minSup);
             textBox1.Text = "MinSup: "+minSup + "";
             textBox2.Text = "numTransact: " + numTransact + "";
-            string d = "";
-
-            /*for(int i=0; i < items.Count; i++)
-            {
-                d += items[i].GetItemName() + "-" + items[i].GetCount() + ", ";
-            }
-            textBox3.Text = "items: " + d + "";*/
         }
     }
 }

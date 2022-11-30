@@ -67,7 +67,7 @@ namespace FPGrowth.Algorithm
             string info = "[";
             foreach (Item anItem in items)
             {
-                info += " " + anItem.GetItemName().ToString() + ", ";
+                info += anItem.GetItemName().ToString() + ", ";
             }
             info = info.Remove(info.Length - 2, 2);
             info += "]: " + SupportCount;
