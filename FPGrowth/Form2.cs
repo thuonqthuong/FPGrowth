@@ -13,21 +13,9 @@ namespace FPGrowth
 {
     public partial class Form2 : Form
     {
-        public string[][] sortData { get; set; }
-        public int minSup { get; set; }
-        public int numTransact { get; set; }
-        List<Item> items { get; set; }
         public Form2()
         {
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            FPGrowthAlgorithm fpGrowth = new FPGrowthAlgorithm();
-            //fpGrowth.CreateFPTreeAndGenerateFrequentItemsets(sortData, items, numTransact, minSup);
-            textBox1.Text = "MinSup: "+minSup + "";
-            textBox2.Text = "numTransact: " + numTransact + "";
         }
     }
 }

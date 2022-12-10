@@ -40,9 +40,7 @@ namespace FPGrowth.Algorithm
                     continue;
                 }
                 for (int j = 0; j < sortData[i].Length; ++j)//cột
-                {
                     aTransaction.Add(sortData[i][j]);
-                }
                 if (aTransaction.Count!=0)//if ( item còn lại khác rỗng)  insert_tree(P,N).
                     InsertTree(aTransaction);//3. Quét từng giao tác Trans trong cơ sở dữ liệu, với mỗi giao tác t:
                 i++;

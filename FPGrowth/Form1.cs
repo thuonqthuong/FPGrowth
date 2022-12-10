@@ -26,7 +26,7 @@ namespace FPGrowth
         public static Form1 instance;
         List<ItemSet> resultsOfItemsets = new List<ItemSet>();
         public List<List<string>> findLaws;
-
+        string[][] sinhLuat;
         Form2 form = new Form2();
         public Form1()
         {
@@ -67,6 +67,7 @@ namespace FPGrowth
         }
         private void comboBox1_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            resultsOfItemsets.Clear();
             thucthithuattoan.Enabled = true;
             button1.Enabled = false;
             textBox1.Text = textBox2.Text = results.Text = law.Text = cachtinh.Text = "";
@@ -183,6 +184,7 @@ namespace FPGrowth
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            button1.Enabled = false;
             //int minSup = int.Parse(textBox1.Text);//https://www.youtube.com/watch?v=k3M8yT6FB7w
             cachtinh.Text = law.Text = results.Text = "";
             double minSup;
@@ -282,7 +284,7 @@ namespace FPGrowth
             law.Text = cachtinh.Text = "";
             FPGrowthAlgorithm fpGrowth = new FPGrowthAlgorithm();
             resultsOfItemsets = fpGrowth.CreateFPTreeAndGenerateFrequentItemsets(sortData, CalculateFrequency(sortValues, cot), num_transac, minSupResult);
-            string t = "     BỘ CÁC TẬP MỤC THƯỜNG XUYÊN \r\n\r\n";
+            string t = "";
             findLaws = new List<List<string>>(resultsOfItemsets.Count);
             foreach (ItemSet i in resultsOfItemsets)
             {
@@ -339,15 +341,19 @@ namespace FPGrowth
                 bool res = double.TryParse(textBox2.Text, out minConf);//https://social.msdn.microsoft.com/Forums/sqlserver/en-US/92d5e038-82a2-43c7-a029-bc65aff90cc5/c-textbox-text-to-integer?forum=winforms
                 if (minConf < 0 || minConf > 100 || res == false)
                     textBox2.Text = "";
-                else
+                else if(resultsOfItemsets.Count > 0)
                 {
                     int index1 = 0;
                     int index2 = 0;
-                    string tinh = "             KẾT QUẢ SINH TỪ CÁC TẬP MỤC THƯỜNG XUYÊN\r\n\r\n";
-                    string laws = "";
+                    string tinh = "";
+                    string laws = ""; 
+                    int max = 0;// support count lon nhat cua cac itemset trong day ket qua
+                    foreach (ItemSet i in resultsOfItemsets)
+                        if (max < i.GetLength())
+                            max = i.GetLength();
                     for (int i = 0; i < resultsOfItemsets.Count; i++)//Xét trong tất cả các tập mục thường xuyên đã tìm được
                     {
-                        if (resultsOfItemsets[i].Items.Count > 1)//Chỉ generate các Itemset có số lượng item >1
+                        if (resultsOfItemsets[i].Items.Count == max)//Chỉ generate các Itemset có số lượng item = max
                         {
                             List<string> info = new List<string>();// Lấy các item và count của Itemset đang xét
                             int fpCountOfList = resultsOfItemsets[i].SupportCount;
@@ -401,7 +407,7 @@ namespace FPGrowth
                                     }
                                 }
                             }
-                            string header2 = "       " + index2 + " LUẬT ĐƯỢC SINH RA THỎA CONF(X->Y) >= MINCONF \r\n          Giá trị của thông số minConf = minConf/100 = " + minConf / 100 + "\r\n\r\n";
+                            string header2 = "                " + index2 + " Luật được sinh ra thỏa Conf(X->Y) >= minConf \r\n                Giá trị của thông số minConf = minConf/100 = " + minConf / 100 + "\r\n\r\n";
                             cachtinh.Text = tinh;
                             law.Text = header2 + laws;
                         }
@@ -412,7 +418,94 @@ namespace FPGrowth
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            cachtinh.Text = law.Text = "";
+            double minConf;
+            bool res = double.TryParse(textBox2.Text, out minConf);//https://social.msdn.microsoft.com/Forums/sqlserver/en-US/92d5e038-82a2-43c7-a029-bc65aff90cc5/c-textbox-text-to-integer?forum=winforms
+            if (minConf < 0 || minConf > 100 || res == false)
+                textBox2.Text = "";
+            else if(resultsOfItemsets.Count > 0)
+            {
+                int index1 = 0;
+                int index2 = 0;
+                string tinh = "";
+                string laws = "";
+                int max = 0;// support count lon nhat cua cac itemset trong day ket qua
+                int sum = 0;// so cac itemset co support count = max
+                foreach(ItemSet i in resultsOfItemsets)
+                    if (max < i.GetLength())
+                        max = i.GetLength();
+                foreach (ItemSet i in resultsOfItemsets)
+                    if (max == i.SupportCount)
+                        sum++;
+                sinhLuat = new string[sum][];
+
+                for (int i = 0; i < resultsOfItemsets.Count; i++)//Xét trong tất cả các tập mục thường xuyên đã tìm được
+                {
+                    if (resultsOfItemsets[i].Items.Count == max)//Chỉ generate các Itemset có số lượng item >1
+                    {
+                        List<string> info = new List<string>();// Lấy các item và count của Itemset đang xét
+                        int fpCountOfList = resultsOfItemsets[i].SupportCount;
+                        foreach (Item anItem in resultsOfItemsets[i].Items)//Convert Items 1 itemset về dạng List<string>
+                        {
+                            info.Add(anItem.GetItemName().ToString());
+                        }
+                        var test = GetSubsets<string>(info);//Generate ra các tập con trừ tập rỗng và tập đầy đủ
+
+                        int firstElement = 0;
+                        int secondElement = 0;
+                        for (int j = 0; j < test.Count; j++)
+                        {
+                            for (int k = 0; k < test.Count; k++)
+                            {
+                                if (test[j].Intersect(test[k]).Any())//bo qua nhung cai giong no
+                                    continue;
+                                else
+                                {
+                                    List<string> frstList = new List<string>();
+                                    List<string> scndList = new List<string>();
+                                    List<string> allList = new List<string>(); ;
+                                    foreach (string o in test[j])
+                                        frstList.Add(o);
+                                    foreach (string o in test[k])
+                                        scndList.Add(o);
+                                    for (int it2 = 0; it2 < resultsOfItemsets.Count; it2++)
+                                    {
+                                        int fpCount = resultsOfItemsets[it2].SupportCount;
+                                        allList = new List<string>();
+                                        foreach (Item item in resultsOfItemsets[it2].Items)
+                                        {
+                                            allList.Add(item.GetItemName());
+                                        }
+                                        bool isEqualFrstList = Enumerable.SequenceEqual(frstList.OrderBy(fe => fe), allList.OrderBy(fe => fe));
+                                        if (isEqualFrstList)
+                                            firstElement = fpCount;
+                                        bool isEqualScndtList = Enumerable.SequenceEqual(scndList.OrderBy(fe => fe), allList.OrderBy(fe => fe));
+                                        if (isEqualScndtList)
+                                            secondElement = fpCount;
+                                    }
+                                    string r = ""; 
+                                    foreach (string o in frstList)
+                                        r += o;
+                                    string l = "";
+                                    foreach (string o in scndList)
+                                        l += o;
+                                    tinh += "   " + ++index1 + ". conf(" + r + "->" + l + ") = supp(" + l + r + ") / supp(" + r + ") = " + fpCountOfList + "/" + firstElement + " = " + Math.Round(fpCountOfList * 1.0 / firstElement, 2) + "\r\n";
+                                    if (minConf / 100 <= (fpCountOfList * 1.0 / firstElement))
+                                        laws += "                             " + (++index2) + ". conf(" + r + "->" + l + ") = " + Math.Round(fpCountOfList * 1.0 / firstElement, 2) + "\r\n";
+                                }
+                            }
+                        }
+                        string header2 = "                " + index2 + " Luật được sinh ra thỏa Conf(X->Y) >= minConf \r\n                Giá trị của thông số minConf = minConf/100 = " + minConf / 100 + "\r\n\r\n";
+                        cachtinh.Text = tinh;
+                        law.Text = header2 + laws;
+                    }
+                }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Form2 f2 = new Form2();
+            f2.Show();
         }
     }
 }
