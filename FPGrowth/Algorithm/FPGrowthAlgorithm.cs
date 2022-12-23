@@ -27,6 +27,7 @@ namespace FPGrowth.Algorithm
             {
                 ItemSet anItemSet = new ItemSet();
                 anItemSet.AddItem(anItem);
+                Console.WriteLine("\r\nFrequent Item: " + anItemSet.GetInfoString());
                 Mine(fpTree, anItemSet);
             }
         }
@@ -35,6 +36,8 @@ namespace FPGrowth.Algorithm
         {
             FPTree projectedTree = fpTree.Project(anItemSet);
             resultItemSet.Add(anItemSet);
+
+            Console.WriteLine("KQ: " + anItemSet.GetInfoString());
             foreach (Item anItem in projectedTree.FrequentItems)
             {
                 ItemSet nextItemSet = anItemSet.Clone();
@@ -42,9 +45,9 @@ namespace FPGrowth.Algorithm
                 Mine(projectedTree, nextItemSet); 
             }
         }
-        public List<ItemSet> CreateFPTreeAndGenerateFrequentItemsets(string[][] sortData, List<Item> items, int numTransact, int minSup)
+        public List<ItemSet> CreateFPTreeAndGenerateFrequentItemsets(string[][] sortData, List<Item> items, int minSup)
         {
-            FPTree _fpTree = new FPTree(sortData, items, numTransact, minSup);
+            FPTree _fpTree = new FPTree(sortData, items, minSup);
             fpTree = _fpTree;
             GenerateFrequentItemSets();
             return resultItemSet;

@@ -10,7 +10,6 @@ namespace FPGrowth.Algorithm
         IDictionary<string, Node> headerTable;
         int minimumSupportCount;
         List<Item> frequentItems;
-        int numNode=1;
         public List<Item> FrequentItems
         {
             get { return frequentItems; }
@@ -19,16 +18,15 @@ namespace FPGrowth.Algorithm
         private FPTree()
         {
             root = new Node("");
-            headerTable = new Dictionary<string, Node>(numNode);
+            headerTable = new Dictionary<string, Node>();
             frequentItems = new List<Item>();
         }
-        public FPTree(string[][] sortData, List<Item> items, int numTransact, int minSup)
+        public FPTree(string[][] sortData, List<Item> items, int minSup)
             : this()
         {
             minimumSupportCount = minSup;
             CalculateFrequentItems(items);
             frequentItems = frequentItems.OrderByDescending(x => x.GetCount()).ToList();
-            numNode = frequentItems.Count;
             List<string> aTransaction;
             int i = 0;
             do
@@ -146,6 +144,7 @@ namespace FPGrowth.Algorithm
             Node startNode = headerTable[anItem.GetLastItem().GetItemName()];
             while (startNode != null)
             {
+                Console.WriteLine("startNode: " + startNode.Name + " " + startNode.FPCount);
                 int projectedFPCount = startNode.FPCount;
                 Node tempNode = startNode;
                 List<Node> aBranch = new List<Node>();
@@ -159,6 +158,11 @@ namespace FPGrowth.Algorithm
                     tempNode = tempNode.Parent;
                 }
                 aBranch.Reverse();
+                Console.WriteLine("DANG XET: " + startNode.Name);
+                foreach (Node i in aBranch)
+                {
+                    Console.WriteLine(i.Name + " ");
+                }
                 if (aBranch.Count != 0)
                 {
                     tree.InsertBranch(aBranch);
@@ -176,6 +180,7 @@ namespace FPGrowth.Algorithm
                 Node temp = hEntry.Value;
                 while (null != temp)
                 {
+                    Console.WriteLine("inFrequentHeaderTable: " + temp.Name +" "+temp.FPCount);
                     Node tempNext = temp.NextHeader;
                     Node tempParent = temp.Parent;
                     tempParent.Children.Remove(temp); 
@@ -191,10 +196,15 @@ namespace FPGrowth.Algorithm
             );
             foreach (Item i in tree.frequentItems)
             {
+                Console.WriteLine("frequentItems: " + i.GetItemName() + " " + i.GetCount());
                 if (tree.headerTable.ContainsKey(i.GetItemName()))
                 {
                     i.SetCount(tree.GetTotalSupportCount(i.GetItemName()));
                 }
+            }
+            foreach (Item i in tree.frequentItems)
+            {
+                Console.WriteLine("    AllfItems: " + i.GetItemName() + " " + i.GetCount());
             }
             return tree;
         }

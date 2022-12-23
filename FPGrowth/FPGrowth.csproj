@@ -55,11 +55,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithm\AprioriAlgorithm.cs" />
     <Compile Include="Algorithm\FPGrowthAlgorithm.cs" />
     <Compile Include="Algorithm\FPTree.cs" />
     <Compile Include="Algorithm\Item.cs" />
     <Compile Include="Algorithm\ItemSet.cs" />
     <Compile Include="Algorithm\Node.cs" />
+    <Compile Include="Algorithm\ResultSet.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
