@@ -118,18 +118,18 @@ namespace FPGrowth
             // aprioriResults
             // 
             this.aprioriResults.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aprioriResults.Location = new System.Drawing.Point(739, 1031);
+            this.aprioriResults.Location = new System.Drawing.Point(834, 699);
             this.aprioriResults.Multiline = true;
             this.aprioriResults.Name = "aprioriResults";
             this.aprioriResults.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.aprioriResults.Size = new System.Drawing.Size(10, 10);
+            this.aprioriResults.Size = new System.Drawing.Size(422, 326);
             this.aprioriResults.TabIndex = 48;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(1210, 234);
+            this.label13.Location = new System.Drawing.Point(1198, 659);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(15, 17);
             this.label13.TabIndex = 47;
@@ -138,7 +138,7 @@ namespace FPGrowth
             // time1
             // 
             this.time1.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.time1.Location = new System.Drawing.Point(1121, 225);
+            this.time1.Location = new System.Drawing.Point(1107, 652);
             this.time1.Name = "time1";
             this.time1.Size = new System.Drawing.Size(85, 28);
             this.time1.TabIndex = 46;
@@ -147,7 +147,7 @@ namespace FPGrowth
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(864, 230);
+            this.label14.Location = new System.Drawing.Point(880, 655);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(230, 21);
             this.label14.TabIndex = 45;
@@ -158,7 +158,7 @@ namespace FPGrowth
             this.thucthiapriori.BackColor = System.Drawing.Color.White;
             this.thucthiapriori.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.thucthiapriori.ForeColor = System.Drawing.Color.Black;
-            this.thucthiapriori.Location = new System.Drawing.Point(1059, 75);
+            this.thucthiapriori.Location = new System.Drawing.Point(945, 563);
             this.thucthiapriori.Name = "thucthiapriori";
             this.thucthiapriori.Size = new System.Drawing.Size(197, 80);
             this.thucthiapriori.TabIndex = 43;
@@ -170,7 +170,7 @@ namespace FPGrowth
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Tahoma", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(1207, 201);
+            this.label12.Location = new System.Drawing.Point(1209, 178);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(15, 17);
             this.label12.TabIndex = 42;
@@ -179,7 +179,7 @@ namespace FPGrowth
             // time
             // 
             this.time.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.time.Location = new System.Drawing.Point(1121, 195);
+            this.time.Location = new System.Drawing.Point(1123, 172);
             this.time.Name = "time";
             this.time.Size = new System.Drawing.Size(85, 28);
             this.time.TabIndex = 41;
@@ -188,7 +188,7 @@ namespace FPGrowth
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Tahoma", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(863, 197);
+            this.label11.Location = new System.Drawing.Point(865, 174);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(262, 21);
             this.label11.TabIndex = 40;
@@ -235,7 +235,7 @@ namespace FPGrowth
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(896, 164);
+            this.label8.Location = new System.Drawing.Point(890, 138);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(325, 24);
             this.label8.TabIndex = 36;
@@ -276,7 +276,7 @@ namespace FPGrowth
             this.button1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.button1.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(1544, 78);
+            this.button1.Location = new System.Drawing.Point(1543, 63);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(121, 64);
             this.button1.TabIndex = 32;
@@ -328,11 +328,11 @@ namespace FPGrowth
             // results
             // 
             this.results.Font = new System.Drawing.Font("Tahoma", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.results.Location = new System.Drawing.Point(834, 261);
+            this.results.Location = new System.Drawing.Point(834, 206);
             this.results.Multiline = true;
             this.results.Name = "results";
             this.results.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.results.Size = new System.Drawing.Size(422, 764);
+            this.results.Size = new System.Drawing.Size(422, 334);
             this.results.TabIndex = 1;
             // 
             // frequency
@@ -372,7 +372,7 @@ namespace FPGrowth
             this.thucthithuattoan.BackColor = System.Drawing.Color.White;
             this.thucthithuattoan.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.thucthithuattoan.ForeColor = System.Drawing.Color.Black;
-            this.thucthithuattoan.Location = new System.Drawing.Point(840, 74);
+            this.thucthithuattoan.Location = new System.Drawing.Point(937, 55);
             this.thucthithuattoan.Name = "thucthithuattoan";
             this.thucthithuattoan.Size = new System.Drawing.Size(213, 80);
             this.thucthithuattoan.TabIndex = 7;

@@ -295,8 +295,12 @@ namespace FPGrowth
                 sw.Stop();
                 time.Text = sw.Elapsed.TotalSeconds/*.TotalMilliseconds*/ + "";
                 string t = "";
-                foreach (ItemSet i in resultsOfItemsets)
-                    t += "    " + i.GetInfoString() + "\r\n";
+                for(int i = 1; i < resultsOfItemsets.Count; i++)
+                {
+                    foreach (ItemSet j in resultsOfItemsets)
+                        if (i == j.Items.Count)
+                            t += "    " + j.GetInfoString() + "\r\n";
+                }
                 results.Text = t;
             }
         }
